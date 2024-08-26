@@ -1,0 +1,145 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Tutorial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+        
+        .image-container img {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .fullscreen img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Tutorial content here -->
+    <main>
+        <h2>Introduction</h2>
+        <p>Welcome to the Cross-Site Scripting (XSS) tutorial.</p>
+        <!-- Add an image to the body content -->
+        
+        
+        <h2>Step-by-Step Guide</h2>
+        <h3>Step 1: Access the XSS Vulnerability Page</h3>
+        <p>Open your browser and navigate to <code>http://localhost/bWAPP/xss_get.php</code>.</p>
+        <img src="1.png" alt="Step 1" width="400" height="300" ondblclick="openFullscreen(this)">
+
+        <h3>Step 2: Submit Normal Input</h3>
+        <p>Enter a simple first and last name (e.g., "debu" and "debu") to see how normal input is processed.</p>
+        <img src="2.png" alt="Step 2" width="400" height="300" ondblclick="openFullscreen(this)">
+        <p>Click the "Go" button. The application processes the input and displays it back on the page.</p>
+        <img src="3.png" alt="Step 3" width="400" height="300" ondblclick="openFullscreen(this)">
+
+        <h3>Step 3: Observe URL Structure</h3>
+        <p>Notice how the input values are reflected in the URL as query parameters.</p>
+        <img src="4.png" alt="Step 4" width="400" height="300" ondblclick="openFullscreen(this)">
+
+        <h3>Step 4: Inject HTML Tags</h3>
+        <p>Modify the query parameters to include HTML tags. For example, change the first name to <code>&lt;b&gt;message&lt;/b&gt;</code> to see if HTML tags are rendered.</p>
+        <img src="5.png" alt="Step 5" width="400" height="300" ondblclick="openFullscreen(this)">
+        <p>The resulting page should display the injected HTML tags in the output, confirming that input is not properly sanitized.</p>
+        <img src="6.png" alt="Step 6" width="400" height="300" ondblclick="openFullscreen(this)">
+
+        <h3>Step 5: Inject JavaScript Code</h3>
+        <p>Now, test injecting JavaScript code. Modify the URL to include <code>&lt;script&gt;alert('Hacked')&lt;/script&gt;</code> in one of the query parameters.</p>
+        <img src="7.png" alt="Step 7" width="400" height="300" ondblclick="openFullscreen(this)">
+        <p>The page should execute the JavaScript code and display an alert box.</p>
+        <img src="8.png" alt="Step 8" width="400" height="300" ondblclick="openFullscreen(this)">
+
+        <h3>Step 6: Confirm the Vulnerability</h3>
+        <p>Finally, you can confirm the vulnerability by injecting various scripts or HTML codes to see how the application behaves. Here is another example:</p>
+        <img src="9.png" alt="Step 9" width="400" height="300" ondblclick="openFullscreen(this)">
+        <p>The reflected XSS vulnerability allows an attacker to inject malicious scripts that the victim’s browser will execute, potentially leading to data theft, session hijacking, and other malicious activities.</p>
+        <img src="10.png" alt="Final Step" width="400" height="300" ondblclick="openFullscreen(this)">
+
+        <h3>Step 7: Setting Security Level to Medium</h3>
+        <p>Change the security level to "medium" and repeat the process to see if the application behavior changes.</p>
+        <img src="11.png" alt="Step 11" width="400" height="300" ondblclick="openFullscreen(this)">
+        <p>Enter normal input again to verify that basic functionality remains the same at a higher security level.</p>
+        <img src="12.png" alt="Step 12" width="400" height="300" ondblclick="openFullscreen(this)">
+
+        <h3>Step 8: Injecting JavaScript Code Again</h3>
+        <p>Try injecting JavaScript code again with the higher security setting. Enter <code>&lt;script&gt;alert('Hacked')&lt;/script&gt;</code> in the query parameters.</p>
+        <img src="13.png" alt="Step 13" width="400" height="300" ondblclick="openFullscreen(this)">
+        <p>The page should still execute the injected JavaScript code and display an alert box, indicating that the medium security level still does not sanitize inputs properly.</p>
+        <img src="14.png" alt="Step 14" width="400" height="300" ondblclick="openFullscreen(this)">
+
+        <h3>Step 9: Further Validation of Vulnerability</h3>
+        <p>Test by injecting another variant of the script to see if there are any changes in behavior or sanitization. Modify the URL to include <code>&lt;script&gt;alert('Hacked')&lt;/script&gt;</code>.</p>
+        <img src="15.png" alt="Step 15" width="400" height="300" ondblclick="openFullscreen(this)">
+        <p>The reflected XSS vulnerability persists, as evidenced by the alert box.</p>
+        <img src="16.png" alt="Step 16" width="400" height="300" ondblclick="openFullscreen(this)">
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My
+
+ Website. All rights reserved.</p>
+    </footer>
+
+    <div id="fullscreenContainer" class="fullscreen" style="display: none;" ondblclick="closeFullscreen()">
+        <img id="fullscreenImage" src="" alt="">
+    </div>
+
+    <script>
+        function openFullscreen(img) {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            var fullscreenImage = document.getElementById('fullscreenImage');
+            fullscreenImage.src = img.src;
+            fullscreenContainer.style.display = 'flex';
+        }
+
+        function closeFullscreen() {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            fullscreenContainer.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
