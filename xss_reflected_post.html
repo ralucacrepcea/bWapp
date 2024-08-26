@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Tutorial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+        
+        .image-container img {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .fullscreen img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h2>Introduction</h2>
+        <p>This tutorial demonstrates how to exploit a Cross-Site Scripting (XSS) vulnerability in the bWAPP (an intentionally vulnerable web application). We will specifically focus on reflected XSS attacks using both POST and GET methods.</p>
+
+        <h2>Steps</h2>
+
+        <h3>1. Accessing the XSS Vulnerability Page</h3>
+        <ul>
+            <li>Open the bWAPP application in a browser.</li>
+            <li>Navigate to the XSS (Reflected) vulnerability page.</li>
+        </ul>
+
+        <h3>2. Setting the Security Level</h3>
+        <ul>
+            <li>Ensure the security level is set to <code>low</code> to easily exploit the vulnerability.</li>
+        </ul>
+
+        <h3>3. Reflected XSS using POST Method</h3>
+        <h4>Step-by-Step Execution:</h4>
+        <h4>Open the XSS - Reflected (POST) Page:</h4>
+        <p>URL: <code>http://localhost/bWAPP/xss_post.php</code></p>
+        <div class="image-container">
+            <img src="111.png" alt="Step 1" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>Enter Data and Submit:</h4>
+        <ul>
+            <li>Enter <code>dev</code> as both the first and last name.</li>
+            <li>Click on the "Go" button.</li>
+            <li>The application reflects the entered data on the page.</li>
+        </ul>
+        <div class="image-container">
+            <img src="222.png" alt="Step 2" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>Inject XSS Payload:</h4>
+        <ul>
+            <li>Enter <code>&lt;h1&gt;Hacked&lt;/h1&gt;</code> as the first name.</li>
+            <li>Enter <code>dev</code> as the last name.</li>
+            <li>Click on the "Go" button.</li>
+            <li>The application reflects the injected payload, which gets executed in the browser.</li>
+        </ul>
+        <div class="image-container">
+            <img src="333.png" alt="Step 3" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="444.png" alt="Step 4" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h3>4. Reflected XSS using GET Method</h3>
+        <h4>Step-by-Step Execution:</h4>
+
+        <h4>Open the XSS - Reflected (GET) Page:</h4>
+        <p>URL: <code>http://localhost/bWAPP/xss_get.php</code></p>
+        <div class="image-container">
+            <img src="555.png" alt="Step 5" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>Enter Data and Submit:</h4>
+        <ul>
+            <li>Enter <code>dev</code> as both the first and last name.</li>
+            <li>Click on the "Go" button.</li>
+            <li>The application reflects the entered data in the URL and on the page.</li>
+        </ul>
+        <div class="image-container">
+            <img src="666.png" alt="Step 6" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>Inject XSS Payload:</h4>
+        <ul>
+            <li>Manually modify the URL to inject the XSS payload:</li>
+            <pre><code>http://localhost/bWAPP/xss_get.php?firstname=&lt;h1&gt;Hacked&lt;/h1&gt;&lastname=dev&form=submit</code></pre>
+            <li>Press Enter.</li>
+            <li>The application reflects the injected payload, which gets executed in the browser.</li>
+        </ul>
+        <div class="image-container">
+            <img src="777.png" alt="Step 7" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="888.png" alt="Step 8" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="999.png" alt="Step 9" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="110.png" alt="Step 10" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h2>Continuation: Demonstrating Cross-Site Scripting (XSS) Attack using bWAPP</h2>
+
+        <h3>Additional Steps</h3>
+
+        <h3>Reflected XSS using POST Method with Alert Box</h3>
+        <h4>Step-by-Step Execution:</h4>
+
+        <h4>Injecting JavaScript Alert:</h4>
+        <ul>
+            <li>Enter <code>alert("Hacking XSS")&lt;/script&gt;</code> as the first name.</li>
+            <li>Enter <code>dev</code> as the last name.</li>
+            <li>Click on the "Go" button.</li>
+            <li>The application reflects the injected payload, which triggers a JavaScript alert in the browser.</li>
+        </ul>
+        <div class="image-container">
+            <img src="1111.png" alt="Step 11" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>Another Payload Injection:</h4>
+        <ul>
+            <li>Enter <code>dev</code> as the first name.</li>
+            <li>Enter <code>&lt;script&gt;alert("Hacking XSS")&lt;/script&gt;</code> as the last name.</li>
+            <li>Click on the "Go" button.</li>
+            <li>The application reflects the injected payload, which triggers a JavaScript alert in the browser.</li>
+        </ul>
+        <div class="image-container">
+            <img src="112.png" alt="Step 12" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="113.png" alt="Step 13" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h3>Increasing the Security Level</h3>
+        <h4>Step-by-Step Execution:</h4>
+
+        <h4>Set Security Level to Medium:</h4>
+        <ul>
+            <li>Change the security level to <code>medium</code>.</li>
+        </ul>
+        <div class="image-container">
+            <img src="114.png" alt="Step 14" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>Testing the Same Payload:</h4>
+        <ul>
+            <li>Enter <code>&lt;/script&gt;alert("Hacking XSS")&lt;/script&gt;</code> as the first name.</li>
+            <li>Enter <code>dev</code> as the last name.</li>
+            <li>Click on
+
+ the "Go" button.</li>
+            <li>The application may have some filtering, but the injected payload could still trigger a JavaScript alert.</li>
+        </ul>
+        <div class="image-container">
+            <img src="115.png" alt="Step 15" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="116.png" alt="Step 16" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>Adjusting the Payload:</h4>
+        <ul>
+            <li>Enter <code>dev</code> as the first name.</li>
+            <li>Enter <code>&lt;script&gt;alert("Hacking XSS")&lt;/script&gt;</code> as the last name.</li>
+            <li>Click on the "Go" button.</li>
+            <li>The application reflects the injected payload, which triggers a JavaScript alert in the browser.</li>
+        </ul>
+        <div class="image-container">
+            <img src="117.png" alt="Step 17" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="118.png" alt="Step 18" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="119.png" alt="Step 19" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h2>Continuation: Demonstrating Cross-Site Scripting (XSS) Attack using bWAPP</h2>
+
+        <h3>Additional Steps</h3>
+
+        <h3>Reflected XSS using POST Method with Alert Box at Medium Security Level</h3>
+        <h4>Step-by-Step Execution:</h4>
+
+        <h4>Injecting JavaScript Alert at Medium Security Level:</h4>
+        <ul>
+            <li>Enter <code>&lt;/script&gt;alert("Hacking XSS")&lt;/script&gt;</code> as the first name.</li>
+            <li>Enter <code>dev</code> as the last name.</li>
+            <li>Click on the "Go" button.</li>
+            <li>The application reflects the injected payload, which triggers a JavaScript alert in the browser.</li>
+        </ul>
+        <div class="image-container">
+            <img src="220.png" alt="Step 20" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>Another Payload Injection:</h4>
+        <ul>
+            <li>Enter <code>dev</code> as the first name.</li>
+            <li>Enter <code>&lt;script&gt;alert("Hacking XSS")&lt;/script&gt;</code> as the last name.</li>
+            <li>Click on the "Go" button.</li>
+            <li>The application reflects the injected payload, which triggers a JavaScript alert in the browser.</li>
+        </ul>
+        <div class="image-container">
+            <img src="221.png" alt="Step 21" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="2222.png" alt="Step 22" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </footer>
+
+    <div id="fullscreenContainer" class="fullscreen" style="display: none;" ondblclick="closeFullscreen()">
+        <img id="fullscreenImage" src="" alt="">
+    </div>
+
+    <script>
+        function openFullscreen(img) {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            var fullscreenImage = document.getElementById('fullscreenImage');
+            fullscreenImage.src = img.src;
+            fullscreenContainer.style.display = 'flex';
+        }
+
+        function closeFullscreen() {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            fullscreenContainer.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
