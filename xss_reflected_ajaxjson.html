@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial de Exploatare a Vulnerabilității XSS în bWAPP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+        
+        .image-container img {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .fullscreen img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Tutorial de Exploatare a Vulnerabilității XSS în bWAPP</h1>
+
+        <h2>Pasul 1: Accesarea aplicației bWAPP</h2>
+        <p><strong>Deschideți bWAPP într-un browser web:</strong></p>
+        <p>URL: <code>http://localhost/bWAPP/xss_ajax_2-1.php</code></p>
+        <p>Aceasta este pagina principală unde puteți selecta diferite vulnerabilități de securitate pentru testare.</p>
+        <div class="image-container">
+            <img src="a1.png" alt="Pasul 1" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h2>Pasul 2: Configurarea Vulnerabilității</h2>
+        <p><strong>Selectați vulnerabilitatea XSS:</strong></p>
+        <p>Alegeți "Cross-Site Scripting - Reflected (JSON)" din meniul dropdown sub "Choose your bug" și faceți clic pe "Hack".</p>
+        <div class="image-container">
+            <img src="a2.png" alt="Pasul 2" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <p><strong>Setați nivelul de securitate:</strong></p>
+        <p>Asigurați-vă că nivelul de securitate este setat la "low". Acest lucru face ca vulnerabilitatea să fie mai ușor de exploatat.</p>
+        <p>Putem observa că diferența dintre metoda (JSON) și metoda (AJAX/JSON) este că la JSON,</p> 
+        <p>apare un buton de căutare, în timp ce la (AJAX/JSON), căutarea se efectuează imediat după introducerea textului.</p>
+        <div class="image-container">
+            <img src="a3.png" alt="Pasul 3" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h2>Pasul 3: Efectuarea Exploatării</h2>
+        <p><strong>Căutați un film:</strong></p>
+        <p>Ne întoarcem la metoda (AJAX/JSON).</p>
+        <p>Pe pagina "XSS - Reflected (AJAX/JSON)", există un câmp de intrare pentru căutarea unui film. Acesta este locul unde veți injecta payload-ul XSS.</p>
+        <div class="image-container">
+            <img src="a4.png" alt="Pasul 4" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <p><strong>Injectarea diferitelor payload-uri:</strong></p>
+        <p>Injecție de text simplu:</p>
+        <p>Input: <code>spiderman</code></p>
+        <div class="image-container">
+            <img src="a5.png" alt="Pasul 5" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+        <p>Rezultat: <code>spiderman??? Sorry, we don't have that movie :(</code></p>
+
+        <p>Injecție HTML de bază:</p>
+        <p>Input: spiderma</p>
+        <div class="image-container">
+            <img src="a6.png" alt="Pasul 6" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+        <p>Rezultat: <code>spiderma??? Sorry, we don't have that movie :(</code></p>
+
+        <p>Încercare de injecție de script:</p>
+        <p>Input: <code>&lt;script&gt;</p>
+        <div class="image-container">
+            <img src="a7.png" alt="Pasul 7" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+        <p>Rezultat:</p>
+
+        <p>Alte injecții:</p>
+        <p>Input: <code>&lt;&gt;</code></p>
+        <div class="image-container">
+            <img src="a8.png" alt="Pasul 8" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+        <p>Rezultat: <code>&lt;&gt;</code></p>
+
+        <p>Input: <code>&lt;b&gt;Hacked&lt;/b&gt;</code></p>
+        <div class="image-container">
+            <img src="a9.png" alt="Pasul 9" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+        <p>Rezultat: <code>&lt;b&gt;Hacked&lt;/b&gt;</code></p>
+
+        <p>Input: <code>&lt;script&gt;alert('Hacked')&lt;/script&gt;</code></p> 
+        <div class="image-container">
+            <img src="a10.png" alt="Pasul 10" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+        <p>Rezultat: ??? Sorry, we don't have that movie :(</p>
+
+        <p>Input: <code>&lt;script&gt;alert(/Hacked/)&lt;/script&gt;</code></p> 
+        <div class="image-container">
+            <img src="a11.png" alt="Pasul 11" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+        <p>Rezultat: ??? Sorry, we don't have that movie :(</p>
+
+        <p>Input: <code>&lt;img src=x onerror=alert(5)&gt;</code></p> 
+        <div class="image-container">
+            <img src="a12.png" alt="Pasul 12" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+        <p>Rezultat: ??? Sorry, we don't have that movie :(</p>
+        <p>De asemenea, vom primi o eroare "5".</p>
+
+        <h2>Pasul 4: Observarea Rezultatelor</h2>
+        <p><strong>Revizuiți payload-urile XSS reflectate:</strong></p>
+        <p>Observați că injecțiile HTML și de script nu se execută deoarece aplicația gestionează intrările într-un mod care nu execută direct tag-urile de script. În schimb, le reflectă ca text.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </footer>
+
+    <div id="fullscreenContainer" class="fullscreen" style="display: none;" ondblclick="closeFullscreen()">
+        <img id="fullscreenImage" src="" alt="">
+    </div>
+
+    <script>
+        function openFullscreen(img) {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            var fullscreenImage = document.getElementById('fullscreenImage');
+            fullscreenImage.src = img.src;
+            fullscreenContainer.style.display = 'flex';
+        }
+
+        function closeFullscreen() {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            fullscreenContainer.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
