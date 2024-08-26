@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial on Exploiting XSS Reflected Back Button Vulnerability in bWAPP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .fullscreen img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Tutorial on Exploiting XSS Reflected Back Button Vulnerability in bWAPP</h1>
+
+        <h2>1. Setting Up the Environment</h2>
+        <p>For this tutorial, you will need:</p>
+        <ul>
+            <li><strong>bWAPP</strong>: a vulnerable web application for security practice.</li>
+            <li><strong>Burp Suite</strong>: a tool for intercepting and analyzing web traffic.</li>
+            <li><strong>Google Chrome</strong> or another web browser.</li>
+        </ul>
+
+        <h2>2. Accessing bWAPP</h2>
+
+        <p><strong>Open bWAPP in a web browser:</strong></p>
+        <p>URL: <code>http://localhost/bWAPP/login.php</code></p>
+        <p>Log in with the default username and password.</p>
+
+        <div class="image-container">
+            <img src="BB4.png" alt="bWAPP Login" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p> "Right-click and then select 'View Page Source'."<p>
+            <img src="BB2.png" alt="bWAPP Login" width="400" height="300" ondblclick="openFullscreen(this)">
+
+            <img src="BB3.png" alt="bWAPP Login" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>This shows what the button does.</p>
+            <img src="BB6.png" alt="bWAPP Login" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p> If you will press the back button you will be... </p>
+            <img src="BB4.png" alt="bWAPP Login" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>redirected here: </p>
+            <img src="BB5.png" alt="bWAPP Login" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+        
+
+        <h2>3. Setting Up Burp Suite</h2>
+        <p><strong>Install and open Burp Suite:</strong></p>
+        <p>Launch Burp Suite and configure your browser to use Burp Suite as a proxy.</p>
+        <div class="image-container">
+            <img src="BB7.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Press NEXT button </p>
+            <br>
+            <img src="BB8.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Now press Start Burp</p>
+            <br>
+            <img src="BB9.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Wait until the application opens.</p>
+            <br>
+            <img src="BB10.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Press the Open Browser</p>
+            <br>
+            <img src="BB11.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <img src="BB12.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br> 
+            <p>Search : localhost/bwapp/login.php</p>
+            <br>
+            <img src="BB13.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Now we need to have 'Intercept is ON'</p>
+            <br>
+            <img src="BB14.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+        </div>
+        <p>In Burp Suite, navigate to the "Proxy" tab and make sure the "Intercept is on" button is turned off.</p>
+
+        <h2>4. Exploiting the Vulnerability</h2>
+        <p><strong>Navigate and view page source:</strong></p>
+        <p>After logging in, navigate to the XSS Reflected Back Button vulnerability page.</p>
+        <p>Right-click on the page and select "View Page Source" to view the page's source code.</p>
+        <div class="image-container">
+            
+            <p>Now log in </p>
+            <br>
+            <img src="BB15.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <img src="BB16.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p></p>
+            <img src="BB17.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <img src="BB18.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <img src="BB19.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <img src="BB20.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <img src="BB21.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <img src="BB22.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Change the URL with tha word 'Hacked'and press Send after</p>
+            <img src="BB23.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>The Response window will open on the right side. </p>
+            <img src="BB24.png" alt="Burp Suite Setup" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h3>4.1. Identifying the Injection Point</h3>
+        <p>In the page source, find the location where user input is reflected in the page without proper filtering.</p>
+
+        <h3>4.2. Injecting XSS</h3>
+        <p>Enter an XSS payload into the input field to see how it is reflected on the page. For example:</p>
+        <pre>&lt;script&gt;alert('Hacked')&lt;/script&gt;</pre>
+        <div class="image-container">
+            <p>Search for the word Hacked on Rensponse part</p>
+            <img src="BB25.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>On the left side, change the word 'hacked' to: <pre>&lt;script&gt;alert('Hacked')&lt;/script&gt;</pre> </p>
+            <br> 
+            <img src="BB26.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>It will automatically change on the right side as well.</p>
+            <img src="BB27.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Right-click and then click on 'Show response in browser'</p>
+            <img src="BB28.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Click on 'Copy' to copy the URL, we will need it later.</p>
+            <img src="BB29.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>We need to turn it OFF </p>
+            <img src="BB30.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p></p>
+            <img src="BB31.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Search BurpSuite</p>
+            <img src="BB32.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Open bWapp</p>
+            <img src="BB33.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p></p>
+            <img src="BB34.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Do the modification like in the picture</p>
+            <img src="BB35.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p>Now right-click and then click on 'Request in browser' </p>
+            <img src="BB36.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            <p> </p>
+            <img src="BB37.png" alt="XSS Injection" width="400" height="300" ondblclick="openFullscreen(this)">
+            <br>
+            
+        </div>
+        <p>Observe that the payload is reflected on the page and executed, triggering the alert.</p>
+
+        
+
+        <h2>5. Observing Results</h2>
+
+        <p><strong>Review behavior:</strong></p>
+        <p>Note how the XSS payload is reflected and executed on the page after pressing the "Back" button.</p>
+
+        <div class="image-container">
+            <img src="BB37.png" alt="Back Button" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>We can see the alert we made:</p>
+            <img src="BB38.png" alt="Back Button" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>Through this tutorial, you have learned how to exploit the XSS Reflected Back Button vulnerability in bWAPP. You used Burp Suite to intercept and analyze web traffic and observed the page's behavior when injecting XSS payloads.</p>
+        <p>It is crucial to practice such attacks in controlled environments to improve your security skills and better protect web applications against these vulnerabilities.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </footer>
+
+    <div id="fullscreenContainer" class="fullscreen" style="display: none;" ondblclick="closeFullscreen()">
+        <img id="fullscreenImage" src="" alt="">
+    </div>
+
+    <script>
+        function openFullscreen(img) {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            var fullscreenImage = document.getElementById('fullscreenImage');
+            fullscreenImage.src = img.src;
+            fullscreenContainer.style.display = 'flex';
+        }
+
+        function closeFullscreen() {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            fullscreenContainer.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
