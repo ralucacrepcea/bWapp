@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial on XSS Reflected (PHP_SELF) in bWAPP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+        
+        .image-container img {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .fullscreen img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Tutorial on XSS Reflected (PHP_SELF) in bWAPP</h1>
+
+        <h2>1. Setting Up the Environment</h2>
+        <p>For this tutorial, you will need:</p>
+        <ul>
+            <li><strong>bWAPP</strong>: a vulnerable web application for security practice.</li>
+            <li><strong>Google Chrome</strong> or another web browser.</li>
+        </ul>
+
+        <h2>2. Accessing bWAPP</h2>
+        <p><strong>Open bWAPP in a web browser:</strong></p>
+        <p>URL: <code>http://localhost/bWAPP/login.php</code></p>
+        <p>Log in with the default username and password.</p>
+        
+        <div class="image-container">
+            <img src="PS1.png" alt="bWAPP Login" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 1: Open bWAPP and navigate to the login page.</p>
+        </div>
+
+        <h2>3. Selecting the XSS Vulnerability</h2>
+        <p>In bWAPP, select the XSS - Reflected (PHP_SELF) option from the list of vulnerabilities.</p>
+
+        <div class="image-container">
+            <img src="PS2.png" alt="Select XSS Reflected (PHP_SELF)" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 2: Select the XSS - Reflected (PHP_SELF) vulnerability.</p>
+        </div>
+
+        <h2>4. Entering the Exploit</h2>
+        <p>Enter an XSS payload into the first name field. This will be used to test the vulnerability.</p>
+        <p>Example payload: <pre>&lt;script&gt;alert('hack')&lt;/script&gt;</pre></p>
+
+        <div class="image-container">
+            <img src="PS3.png" alt="Entering XSS Payload" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 3: Entering the XSS payload into the first name field.</p>
+        </div>
+
+        <h2>5. Executing the Payload</h2>
+        <p>Submit the form to trigger the payload. The script is executed when the page reflects the user input back.</p>
+
+        <div class="image-container">
+            <img src="PS4.png" alt="Executing the Payload" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 4: Submit the form to execute the XSS payload.</p>
+        </div>
+
+        <h2>6. Observing the Results</h2>
+        <p>The XSS payload executes, and the alert box displays the message "hack" as expected.</p>
+
+        <div class="image-container">
+            <img src="PS5.png" alt="XSS Alert Triggered" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 5: The XSS payload triggers an alert box with the message "hack".</p>
+        </div>
+
+        <h2>7. Increasing Security Level</h2>
+        <p>To test how the security settings affect the vulnerability, increase the security level from low to medium.</p>
+
+        <div class="image-container">
+            <img src="PS6.png" alt="Increase Security Level" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 6: Increase the security level in bWAPP.</p>
+        </div>
+
+        <h2>8. Retesting the Payload</h2>
+        <p>After increasing the security level, retest the same XSS payload to see if it is still exploitable.</p>
+
+        <div class="image-container">
+            <img src="PS7.png" alt="Retesting XSS Payload" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 7: Retesting the XSS payload at a higher security level.</p>
+        </div>
+
+        <h2>9. Observing Changes</h2>
+        <p>The script may or may not execute depending on the implemented security measures at this level.</p>
+
+        <div class="image-container">
+            <img src="PS8.png" alt="Observing Security Impact" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 8: Observing the results of the XSS test after increasing security.</p>
+        </div>
+
+        <h2>10. Testing with Different Payloads</h2>
+        <p>Experiment with different XSS payloads to test the effectiveness of the security settings in place.</p>
+
+        <div class="image-container">
+            <img src="PS9.png" alt="Testing with Different Payloads" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 9: Testing different XSS payloads.</p>
+        </div>
+
+        <h2>11. Final Observation</h2>
+        <p>In the final step, you can see that the XSS payload triggers an alert box with a custom message "/hack/". This indicates that the payload was successfully executed.</p>
+
+        <div class="image-container">
+            <img src="PS11.png" alt="Final XSS Alert Triggered" width="400" height="300" ondblclick="openFullscreen(this)">
+            <p>Photo 10: The final XSS payload triggers an alert box with the message "/hack/".</p>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>This tutorial demonstrated how to exploit an XSS Reflected (PHP_SELF) vulnerability in bWAPP. You tested different payloads and observed the effects of changing the security level.</p>
+        <p>Understanding these concepts is essential for web application security testing and helps in securing applications against such vulnerabilities.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </footer>
+
+    <div id="fullscreenContainer" class="fullscreen" style="display: none;" ondblclick="closeFullscreen()">
+        <img id="fullscreenImage" src="" alt="">
+    </div>
+
+    <script>
+        function openFullscreen(img) {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            var fullscreenImage = document.getElementById('fullscreenImage');
+            fullscreenImage.src = img.src;
+            fullscreenContainer.style.display = 'flex';
+        }
+
+        function closeFullscreen() {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            fullscreenContainer.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
