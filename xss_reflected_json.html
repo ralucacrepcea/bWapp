@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Tutorial - JSON</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+        
+        .image-container img {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .fullscreen img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h2>Additional Steps for Reflected XSS using JSON</h2>
+
+        <h3>Step-by-Step Execution:</h3>
+
+        <h4>1. Open the XSS - Reflected (JSON) Page:</h4>
+        <p>URL: <code>http://localhost/bWAPP/xss_json.php</code></p>
+        <div class="image-container">
+            <img src="j1.png" alt="Step 1" width="400" height="300" ondblclick="openFullscreen(this)">
+            <div class="image-container">
+        <h4>2. Enter Data and Submit:</h4>
+        <p>Enter <code>Spiderman</code> as the movie title and click on the "Search" button. The application reflects the entered data on the page, indicating no results found.</p>
+        <div class="image-container">
+            <img src="j2.png" alt="Step 2" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>3. Inject XSS Payload:</h4>
+        <p>Enter <code>&lt;script&gt;alert('Hacked')&lt;/script&gt;</code> as the movie title. Click on the "Search" button. The application reflects the injected payload, which gets executed in the browser.</p>
+        <div class="image-container">
+            <img src="j3.png" alt="Step 3" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="j4.png" alt="Step 4" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>4. Modify URL to Inject XSS Payload:</h4>
+        <p>Manually modify the URL to include the XSS payload:</p>
+        <code>http://localhost/bWAPP/xss_json.php?title=&lt;script&gt;alert('Hacked')&lt;/script&gt;&action=search</code>
+        <p>Press Enter. The application reflects the injected payload, which gets executed in the browser.</p>
+        <div class="image-container">
+            <img src="j5.png" alt="Step 5" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>5. Inspect the Injected Code:</h4>
+        <p>Right-click on the page and select "Inspect Element". Observe the injected payload in the page source.</p>
+        <div class="image-container">
+            <img src="j6.png" alt="Step 6" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>6. Adjusting the Payload:</h4>
+        <p>Enter <code>}};alert('Hacked')//</code> as the movie title. Click on the "Search" button. The application reflects the injected payload, which triggers a JavaScript alert in the browser.</p>
+        <div class="image-container">
+            <img src="j7.png" alt="Step 7" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="j8.png" alt="Step 8" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="j9.png" alt="Step 9" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="j10.png" alt="Step 10" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>7. View Page Source for Injected Code:</h4>
+        <p>Right-click on the page and select "View Page Source". Observe the source code that includes the injected payload.</p>
+        <div class="image-container">
+            <img src="j11.png" alt="Step 11" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>8. View Injected Code in Source:</h4>
+        <p>Inspect the page source to see how the injected payload is included in the JSON response.</p>
+        <div class="image-container">
+            <img src="j12.png" alt="Step 12" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>9. Modify URL to Test Another Payload:</h4>
+        <p>Manually modify the URL to include another variant of the XSS payload:</p>
+        <code>http://localhost/bWAPP/xss_json.php?title=%22]%7D%7D)%3Balert('Hacked')%3C/script>%3E&action=search</code>
+        <p>Press Enter. The application reflects the injected payload, which gets executed in the browser.</p>
+        <div class="image-container">
+            <img src="j13.png" alt="Step 13" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="j14.png" alt="Step 14" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+        <h4>10. Inspect the JSON Response:</h4>
+        <p>Observe how the payload is reflected in the JSON response and how it gets executed.</p>
+        <div class="image-container">
+            <img src="j15.png" alt="Step 15" width="400" height="300" ondblclick="openFullscreen(this)">
+            <img src="j16.png" alt="Step 16" width="400" height="300" ondblclick="openFullscreen(this)">
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </footer>
+
+    <div id="fullscreenContainer" class="fullscreen" style="display: none;" ondblclick="closeFullscreen()">
+        <img id="fullscreenImage" src="" alt="">
+    </div>
+
+    <script>
+        function openFullscreen(img) {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            var fullscreenImage = document.getElementById('fullscreenImage');
+            fullscreenImage.src = img.src;
+            fullscreenContainer.style.display = 'flex';
+        }
+
+        function closeFullscreen() {
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+            fullscreenContainer.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
